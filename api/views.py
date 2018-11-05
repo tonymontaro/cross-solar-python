@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from rest_framework import viewsets, status
 from rest_framework.views import APIView, Response
 from .models import Panel, OneHourElectricity
@@ -29,11 +31,19 @@ class HourAnalyticsView(APIView):
 
 class DayAnalyticsView(APIView):
     def get(self, request, panelid):
-        # Please implement this method to return Panel's daily analytics data
-        return Response([{
-            "date_time": "[date for the day]",
-            "sum": 0,
-            "average": 0,
-            "maximum": 0,
-            "minimum": 0
-        }])
+        daily_report = defaultdict(list)
+        queryset = OneHourElectricity.objects.filter(panel_id=panelid)
+        for item in queryset:
+            daily_report[item.date_time.strftime('%Y-%m-%d')].append(item.kilo_watt)
+
+        result = []
+        for day, values in daily_report.items():
+            kilo_watt_sum = sum(values)
+            result.append({
+                'date_time': day,
+                'sum': kilo_watt_sum,
+                'average': kilo_watt_sum / len(values),
+                'maximum': max(values),
+                'minimum': min(values),
+            })
+        return Response(sorted(result, key=lambda x: x['date_time']))
