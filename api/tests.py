@@ -8,7 +8,7 @@ from .models import Panel, OneHourElectricity
 class PanelModelTestCase(TestCase):
     def test_create_panel(self):
         panel = Panel.objects.create(brand="Areva", serial="AAAA1111BBBB2222",
-                                     latitude=90.345678, longitude=120.7655432)
+                                     latitude=90.345678, longitude=120.765543)
         self.assertTrue(isinstance(panel, Panel))
         self.assertEqual(
             panel.__str__(), "Brand: Areva, Serial: AAAA1111BBBB2222")
@@ -17,7 +17,7 @@ class PanelModelTestCase(TestCase):
 class OneHourElectricityModelTestCase(TestCase):
     def test_create_report(self):
         panel = Panel.objects.create(brand="Areva", serial="AAAA1111BBBB2222",
-                                     latitude=90.345678, longitude=120.7655432)
+                                     latitude=90.345678, longitude=120.765543)
 
         report = OneHourElectricity.objects.create(
             panel=panel, kilo_watt=200, date_time="2018-11-04T03:00:00Z")
@@ -29,12 +29,14 @@ class OneHourElectricityModelTestCase(TestCase):
 class PanelTestCase(APITestCase):
 
     def setUp(self):
-        self.create_panel = lambda: self.client.post('/panel/', {
+        self.panel_detail = {
             "brand": "Areva",
             "serial": "AAAA1111BBBB2222",
             "latitude": 80.345678,
-            "longitude": 120.76554
-        }, format='json')
+            "longitude": 120.765544
+        }
+        self.create_panel = lambda: self.client.post(
+            '/panel/', self.panel_detail, format='json')
 
     def test_panel_creation(self):
         response = self.create_panel()
@@ -54,37 +56,29 @@ class PanelTestCase(APITestCase):
         self.assertEqual(response.data["serial"], "AAAA1111BBBB2222")
 
     def test_invalid_panel_latitude(self):
-        response = self.client.post('/panel/', {
-            "serial": "AAAA1111BBBB2222",
-            "latitude": 90.345678,
-            "longitude": 120.76554
-        }, format='json')
+        self.panel_detail['latitude'] = 90.345678
+        response = self.client.post('/panel/', self.panel_detail, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data["latitude"][0],
                          "Ensure this value is less than or equal to 90.")
 
-        response = self.client.post('/panel/', {
-            "serial": "AAAA1111BBBB2222",
-            "latitude": -93.345678,
-            "longitude": 120.76554
-        }, format='json')
+        self.panel_detail['latitude'] = -93.345678
+        response = self.client.post('/panel/', self.panel_detail, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data["latitude"][0],
                          "Ensure this value is greater than or equal to -90.")
 
     def test_invalid_panel_longitude(self):
-        response = self.client.post('/panel/', {
-            "serial": "AAAA1111BBBB2222",
-            "latitude": 80.345678,
-            "longitude": 200.76554
-        }, format='json')
+        self.panel_detail['longitude'] = 200.765544
+        response = self.client.post('/panel/', self.panel_detail, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data["longitude"][0],
                          "Ensure this value is less than or equal to 180.")
 
+        self.panel_detail['longitude'] = -200.765544
         response = self.client.post('/panel/', {
             "serial": "AAAA1111BBBB2222",
             "latitude": 80.345678,
