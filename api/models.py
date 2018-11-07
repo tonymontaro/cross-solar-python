@@ -3,13 +3,19 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Panel(models.Model):
-    brand = models.CharField(max_length=200)
-    serial = models.CharField(max_length=200)
-    latitude = models.DecimalField(decimal_places=6, max_digits=8)
-    longitude = models.DecimalField(decimal_places=6, max_digits=9)
+    brand = models.CharField(max_length=200, blank=True)
+    serial = models.CharField(max_length=200, unique=True)
+    latitude = models.DecimalField(decimal_places=6, max_digits=8, validators=[
+        MaxValueValidator(90),
+        MinValueValidator(-90)
+    ])
+    longitude = models.DecimalField(decimal_places=6, max_digits=9, validators=[
+        MaxValueValidator(180),
+        MinValueValidator(-180)
+    ])
 
     def __str__(self):
-        return "Brand: {0}, Serial: {1} ".format(self.brand, self.serial)
+        return "Brand: {0}, Serial: {1}".format(self.brand, self.serial)
 
 
 class OneHourElectricity(models.Model):

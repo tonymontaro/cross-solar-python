@@ -30,11 +30,13 @@ class HourAnalyticsView(APIView):
 
 
 class DayAnalyticsView(APIView):
+
     def get(self, request, panelid):
         daily_report = defaultdict(list)
         queryset = OneHourElectricity.objects.filter(panel_id=panelid)
         for item in queryset:
-            daily_report[item.date_time.strftime('%Y-%m-%d')].append(item.kilo_watt)
+            daily_report[item.date_time.strftime('%Y-%m-%d')].append(
+                item.kilo_watt)
 
         result = []
         for day, values in daily_report.items():
