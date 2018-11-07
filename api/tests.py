@@ -132,7 +132,7 @@ class HourAnalyticsTestCase(APITestCase):
 
 class DayAnalyticsViewTestCase(APITestCase):
     def setUp(self):
-        Panel.objects.create(brand="Areva", serial="AAAA1111BBBB2222",
+        panel = Panel.objects.create(brand="Areva", serial="AAAA1111BBBB2222",
                              latitude=12.345678, longitude=98.765543)
         data = [
             {
@@ -156,9 +156,9 @@ class DayAnalyticsViewTestCase(APITestCase):
                 "date_time": "2018-11-03T03:00:00Z"
             }
         ]
-        panel1 = Panel.objects.get(pk=1)
+
         for item in data:
-            item['panel'] = panel1
+            item['panel'] = panel
             OneHourElectricity.objects.create(**item)
 
     def test_day_analytics_get(self):

@@ -1,3 +1,4 @@
+"""Cross-Solar URLs"""
 from django.urls import include
 from django.conf.urls import url
 

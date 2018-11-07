@@ -1,3 +1,4 @@
+"""API Views."""
 from collections import defaultdict
 
 from rest_framework import viewsets, status
@@ -7,21 +8,26 @@ from .serializers import PanelSerializer, OneHourElectricitySerializer
 
 
 class PanelViewSet(viewsets.ModelViewSet):
+    """Panel View Set."""
+
     queryset = Panel.objects.all()
     serializer_class = PanelSerializer
 
 
 class HourAnalyticsView(APIView):
+    """Hourly Analytics."""
+
     serializer_class = OneHourElectricitySerializer
 
     def get(self, request, panelid):
+        """Retrieve Hourly Analytics for a Panel."""
         panelid = int(self.kwargs.get('panelid', 0))
         queryset = OneHourElectricity.objects.filter(panel_id=panelid)
         items = OneHourElectricitySerializer(queryset, many=True)
         return Response(items.data)
 
     def post(self, request, panelid):
-        panelid = int(self.kwargs.get('panelid', 0))
+        """Create Hourly Report for a Panel."""
         serializer = OneHourElectricitySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -30,8 +36,10 @@ class HourAnalyticsView(APIView):
 
 
 class DayAnalyticsView(APIView):
+    """Daily Analytics."""
 
     def get(self, request, panelid):
+        """Generate Daily Analytics."""
         daily_report = defaultdict(list)
         queryset = OneHourElectricity.objects.filter(panel_id=panelid)
         for item in queryset:
