@@ -5,6 +5,7 @@
 # Cross-Solar
 Cross-Solar is a backend web application by a startup company called “Green Energy Analytics” in Texas - USA. This application collects energy analytics data for solar panels every hour. 
 
+Api documentation: [Generated with Postman](https://documenter.getpostman.com/view/646133/RzZ7o1Ba)
 
 ## Technologies Used
 - [Python3.6](https://www.python.org/downloads/) - A programming language that lets you work more quickly.
@@ -18,7 +19,7 @@ Requirements
 - Python 3.6
 - [Virtualenv](https://virtualenv.pypa.io/en/stable/)
 
-### How to Use
+### Installation
 - Clone the repository and cd into the root folder:
 ```bash
 git clone https://github.com/tonymontaro/cross-solar-python.git && cd cross-solar-python
@@ -54,14 +55,9 @@ python manage.py runserver
 coverage run manage.py test && coverage report
 ```
 
-
-Api documentation: [Generated with Postman](https://documenter.getpostman.com/view/646133/RWEfMJz4)
-
-
-
 ## Tasks Performed
 
-- refactored API urls to be included in the cross_solar project
+- refactored API URLs to be included in the cross_solar project
 - added tests for HourAnalytics
 - implemented the DayAnalytics views and added relevant tests
 - fixed longitude/latitude bugs and updated tests
@@ -70,5 +66,6 @@ Api documentation: [Generated with Postman](https://documenter.getpostman.com/vi
 - refactored code to follow pep8 standards
 - added continuous integration with TravisCI and included the test-build badge on the Readme.md file
 - added coverage and maintainability badges to the Readme.md file
+- generated API documentation with Postman; https://documenter.getpostman.com/view/646133/RzZ7o1Ba
 
 Repository: https://github.com/tonymontaro/cross-solar-python

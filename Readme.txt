@@ -8,6 +8,7 @@
 - refactored code to follow pep8 standards
 - added continuous integration with TravisCI and included the test-build badge on the Readme.md file
 - added coverage and maintainability badges to the Readme.md file
+- generated API documentation with Postman; https://documenter.getpostman.com/view/646133/RzZ7o1Ba
 More details can be found on the Readme.md file
 
 

@@ -4,5 +4,5 @@ from django.conf.urls import url
 
 
 urlpatterns = [
-    url(r'^panel/', include('api.urls')),
+    url(r'^panels?/', include('api.urls')),
 ]
