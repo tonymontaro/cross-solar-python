@@ -1,3 +1,17 @@
+## Tasks Performed
+- refactored API urls to be included in the cross_solar project
+- added tests for HourAnalytics
+- implemented the DayAnalytics views and added relevant tests
+- fixed longitude/latitude bugs and updated tests
+- made the "brand" option on the Panel model since just the serial number, longitude and latitude are required.
+- put a check to ensure that the serial number is unique
+- refactored code to follow pep8 standards
+- added continuous integration with TravisCI and included the test-build badge on the Readme.md file
+- added coverage and maintainability badges to the Readme.md file
+- generated API documentation with Postman; https://documenter.getpostman.com/view/646133/RzZ7o1Ba
+More details can be found on the Readme.md file
+
+
 Project Assessment:
     Cross-Solar is a backend web application created in a hurry by a startup company called “Green Energy Analytics” in Texas - USA. This application collects energy analytics data for solar panels every hour.
 
